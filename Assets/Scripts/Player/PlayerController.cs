@@ -57,10 +57,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float damage;
     [SerializeField] GameObject slashEffect;
 
-    bool restoreTime;
-    float restoreTimeSpeed;
-    [Space(5)]
-
     [Header("Recoil")]
     [SerializeField] int recoilXSteps = 5;
     [SerializeField] int recoilYSteps = 5;
@@ -80,27 +76,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject damageEffect;
     [Space(5)]
-
-    /*[Header("Mana")] //When you hit an enemy, gain mana. Use mana to cast spells, heal (probably taking this out), and seeing beyond
-    [SerializeField] float mana;
-    [SerializeField] float manaDrainSpeed;
-    [SerializeField] float manaGain;
-    [SerializeField] UnityEngine.UI.Image manaStorage;
-    [Space(5)]
-
-    [Header("Spell Casting")] //Side fireball and down blast and up blast (We don't neccesarily need this)
-    [SerializeField] float manaSpellCost = 0.3f;
-    [SerializeField] float timeBetweenCast = 0.5f;
-    float timeSinceCast;
-    [SerializeField] float spellDamage; //upspellexplosion and downspellfireball
-    [SerializeField] float downSpellForce; // desolate dive
-
-    [SerializeField] GameObject sideSpellFireball;
-    [SerializeField] GameObject upSpellExplosion;
-    [SerializeField] GameObject downSpellFireball;
-
-    float castOrHealTimer;
-    [Space(5)]*/
 
     [Header("Camera")]
     [SerializeField] private float playerFallSpeedThreshold = -10;
@@ -129,8 +104,6 @@ public class PlayerController : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-
-        Health = maxHealth;
 
         timeSinceAttack = timeBetweenAttack;
     }
@@ -161,9 +134,6 @@ public class PlayerController : MonoBehaviour
         pState = GetComponent<PlayerStateList>();
         gravity = rb.gravityScale;
         sr = GetComponent<SpriteRenderer>();
-        //Mana = mana;
-        //ERROR HERE BECAUSE NO MANA COMPONENT. We can either take this out or make mana
-        //manaStorage.fillAmount = Mana;
     }
 
     private void OnDrawGizmos() //Visualize, in editor, where the attacks are. That's all
@@ -182,8 +152,6 @@ public class PlayerController : MonoBehaviour
         GetInputs();
         UpdateJumpVariables();
         UpdateCameraYDampForPlayerFall();
-
-        RestoreTimeScale();
 
         if (pState.dashing) return;
         FlashWhileInvincible();
@@ -206,33 +174,6 @@ public class PlayerController : MonoBehaviour
         Flip();
 
     }
-
-    /*private void OnTriggerEnter2D(Collider2D _other) //for up and down cast spells
-    {
-        if (_other.GetComponent<EnemyController>() != null && pState.casting)
-        {
-            _other.GetComponent<EnemyController>().EnemyHit(spellDamage, (_other.transform.position - transform.position).normalized, -recoilYSpeed);
-        }
-    }*/ //Enemy doesn't exist yet, so this is technically effecting something that doesn't exist yet.
-
-    //See Beyond, if we wanna do anything like that
-    /*private void OnTriggerStay2D(Collider2D _other)  //Trigger for See Beyond
-    {
-        if (_other.CompareTag("Beyondible"))
-        {
-            SeeBeyond(_other);
-        }
-    }
-
-    void SeeBeyond(Collider2D beyondible) //Destroys the beyondible and lets the player travel through.
-    {
-        if (Input.GetButtonDown("SeeBeyond")) 
-        {
-            Mana -= manaSpellCost;
-            HitStopTime(0, 5, 0.5f);
-            beyondible.gameObject.SetActive(false);
-        }
-    }*/
 
     private void FixedUpdate()
     {
@@ -487,22 +428,6 @@ public class PlayerController : MonoBehaviour
         pState.recoilingY = false;
     }
 
-    public void TakeDamage(float _damage) //Damage and recoil are different. This method takes damage.
-    {
-        Health -= Mathf.RoundToInt(_damage);
-        StartCoroutine(StopTakingDamage());
-    }
-
-    IEnumerator StopTakingDamage() //Makes the player invincible and works with animation and particles for damage.
-    {
-        pState.invincible = true;
-        //GameObject _damageEffectParticles = Instantiate(damageEffect, transform.position, Quaternion.identity);
-        //Destroy(_damageEffectParticles, 1.5f);
-        //anim.SetTrigger("takeDamage");
-        yield return new WaitForSeconds(1f);
-        pState.invincible = false;
-    }
-
     IEnumerator Flash() //This animated the character to flash.
     { 
         sr.enabled = !sr.enabled;
@@ -526,174 +451,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void RestoreTimeScale() //Damage freezes time temporarily. This restores it. It's its own thing so it can be called in update
-    {
-        if (restoreTime)
-        {
-            if (Time.timeScale < 1)
-            {
-                Time.timeScale += Time.unscaledDeltaTime * restoreTimeSpeed;
-            }
-            else 
-            {
-                Time.timeScale = 1;
-                restoreTime = false;
-            }
-        }
-    }    
-    
-    public void HitStopTime(float _newTimeScale, int _restoreSpeed, float _delay) //Here's the time stop I was talking about when dealt damage.
-    { 
-        restoreTimeSpeed = _restoreSpeed;
-        Time.timeScale = _newTimeScale;
-
-        if (_delay > 0)
-        {
-            StopCoroutine(StartTimeAgain(_delay));
-            StartCoroutine(StartTimeAgain(_delay));
-        }
-        else 
-        {
-            restoreTime = true;
-        }
-    }
-
-    IEnumerator StartTimeAgain(float _delay)
-    {
-        yield return new WaitForSecondsRealtime(_delay);
-        restoreTime = true;
-    }
-
-    public int Health //Handles the player's health as an int instead of a float, akin to Gungeon or HK.
-    {
-        get { return health; }
-        set
-        {
-            if (health != value)
-            {
-                health = Mathf.Clamp(value, 0, maxHealth);
-
-                if (onHealthChangedCallback != null) 
-                {
-                    onHealthChangedCallback.Invoke();
-                }
-            }
-        }
-    }
-
-    /*void Heal() //HK healing based. We can take this out or not.
-    {
-        if (Input.GetButton("Cast/Heal") && castOrHealTimer > 0.05f && Health < maxHealth && Mana > 0 && Grounded() && !pState.dashing) 
-        {
-            //These three lines are community solutions to moving while healing.
-            rb.linearVelocity = new Vector2(0, 0);
-            anim.SetBool("Walking", false);
-            anim.SetBool("Jumping", false);
-
-            pState.healing = true;
-            anim.SetBool("Healing", true);
-
-            //healing
-            healTimer += Time.deltaTime;
-            if (healTimer >= timeToHeal) 
-            {
-                Health++;
-                healTimer = 0;
-            }
-
-            //drain mana
-            Mana -= Time.deltaTime * manaDrainSpeed;
-        }
-        else 
-        {
-            anim.SetBool("Healing", false);
-            pState.healing = false;
-            healTimer = 0;
-        }
-    }
-
-    float Mana //HK mana based
-    {
-        get { return mana; }
-        set
-        {
-            if (mana != value) 
-            {
-                mana = Mathf.Clamp(value, 0, 1);
-                manaStorage.fillAmount = Mana;
-            }
-        }
-    }*/
-
-    /*void CastSpell() //HK spells based. Fireball, ground pound, and up explosion. This determines
-    {
-        if (Input.GetButtonUp("Cast/Heal") && castOrHealTimer <= 0.1f && timeSinceCast >= timeBetweenCast && Mana >= manaSpellCost) 
-        {
-            pState.casting = true;
-            timeSinceCast = 0;
-            StartCoroutine(CastCoroutine());
-        }
-        else 
-        {
-            timeSinceCast += Time.deltaTime;
-        }
-
-        if (!Input.GetButton("Cast/Heal"))
-        {
-            castOrHealTimer = 0;
-        }
-
-        if (Grounded())
-        { 
-            //disables down fireball
-            downSpellFireball.SetActive(false);
-        }
-
-        if (downSpellFireball.activeInHierarchy) //The ground pound. Slams the player down onto the ground with the attack.
-        {
-            rb.linearVelocity += downSpellForce * Vector2.down;
-        }
-    }
-
-    IEnumerator CastCoroutine()
-    {
-        anim.SetBool("Casting", true);
-        yield return new WaitForSeconds(0.15f);
-
-        //side cast
-        if (yAxis == 0 || (yAxis < 0 && Grounded()))
-        {
-            GameObject _fireBall = Instantiate(sideSpellFireball, SideAttackTransform.position, Quaternion.identity);
-
-            //flip fireball
-            if (pState.lookingRight)
-            {
-                _fireBall.transform.eulerAngles = Vector3.zero;
-            }
-            else
-            {
-                _fireBall.transform.eulerAngles = new Vector2(_fireBall.transform.eulerAngles.x, 180); //if not facing right, flip fireball
-            }
-            pState.recoilingX = true;
-        }
-
-        else if (yAxis > 0) //if Holding up
-        {
-            Instantiate(upSpellExplosion, transform);
-            rb.linearVelocity = Vector2.zero;
-        }
-
-        //down cast
-        else if (yAxis < 0 && !Grounded()) //If holding down and not on the ground
-        {
-            downSpellFireball.SetActive(true);
-        }
-
-        Mana -= manaSpellCost;
-        yield return new WaitForSeconds(0.35f);
-        anim.SetBool("Casting", false);
-        pState.casting = false;
-    }*/
 
     public bool Grounded() //Uses raycast instead of a collider to check for the ground.
     {
