@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IController
 {
 
     private float xAxis, yAxis;
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else 
+        else
         {
             Instance = this;
         }
@@ -159,11 +159,11 @@ public class PlayerController : MonoBehaviour
         //Heal();
         //CastSpell();
 
-        if(pState.healing) return;
+        if (pState.healing) return;
 
         //Updates jumps only if not healing
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0 && !pState.jumping) //Essentially says if you're not jumping, try to, and are not out of Coyote Time, jump
-            //The jump method MAKES jumpBufferCounter > 0 through UpdateJumpVariables
+                                                                               //The jump method MAKES jumpBufferCounter > 0 through UpdateJumpVariables
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
             pState.jumping = true;
@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
         /*if (Input.GetButton("Cast/Heal"))
         {
             castOrHealTimer += Time.deltaTime;
-        }*/ 
+        }*/
     }
 
     void Flip() //Simple just flip the PC if they're walking left as opposed to right. This flips what counts as "forward" for stuff like attacking as well.
@@ -204,7 +204,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(transform.localScale.y * -1, transform.localScale.y);
             pState.lookingRight = false;
         }
-        else if (xAxis > 0) 
+        else if (xAxis > 0)
         {
             transform.localScale = new Vector2(transform.localScale.y * 1, transform.localScale.y);
             pState.lookingRight = true;
@@ -220,13 +220,13 @@ public class PlayerController : MonoBehaviour
     void UpdateCameraYDampForPlayerFall() //Makes the player's camera dynamic on falling.
     {
         //if falling past a certain speed threshold
-        if (rb.linearVelocity.y < playerFallSpeedThreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.hasLerpedYDamping) 
+        if (rb.linearVelocity.y < playerFallSpeedThreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.hasLerpedYDamping)
         {
             StartCoroutine(CameraManager.Instance.LerpYDamping(true));
         }
 
         //if standing still or moving up
-        if (rb.linearVelocity.y >= 0 && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.hasLerpedYDamping) 
+        if (rb.linearVelocity.y >= 0 && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.hasLerpedYDamping)
         {
             //reset camera function
             CameraManager.Instance.hasLerpedYDamping = false;
@@ -236,18 +236,18 @@ public class PlayerController : MonoBehaviour
 
     void StartSprint(InputAction.CallbackContext ctx) //The actual dash is the colorful coroutine that follows, but TL;DR, you can dash through certain things (Characters and objects)
     {
-        if (canDash && !dashed && !pState.healing) 
+        if (canDash && !dashed && !pState.healing)
         {
             StartCoroutine(Dash());
             dashed = true;
         }
 
         if (Grounded())
-        { 
+        {
             dashed = false;
         }
     }
-    
+
     IEnumerator Dash() //Calculation and application of dash direction and magnitude
     {
         canDash = false;
@@ -256,12 +256,12 @@ public class PlayerController : MonoBehaviour
         //anim.SetTrigger("Dashing");
         rb.gravityScale = 0;
         int _dirX = pState.lookingRight ? 1 : -1;
-        if(xAxis < 0.15 && xAxis > -0.15) { _dirX = 0; }
+        if (xAxis < 0.15 && xAxis > -0.15) { _dirX = 0; }
         int _dirY = 0;
         if (yAxis > 0.15) { _dirY = 1; }
         else if (yAxis < -0.15) { _dirY = -1; }
         float _dirMult = 1f;
-        if (yAxis > 0.15 && xAxis > 0.15 || yAxis < -0.15 && xAxis < -0.15 || 
+        if (yAxis > 0.15 && xAxis > 0.15 || yAxis < -0.15 && xAxis < -0.15 ||
             yAxis < -0.15 && xAxis > 0.15 || yAxis > 0.15 && xAxis < -0.15) { _dirMult = 0.75f; }
         if (_dirX == 0 && _dirY == 0) { _dirX = pState.lookingRight ? 1 : -1; }
         rb.linearVelocity = new Vector2(_dirX * dashSpeed * _dirMult, _dirY * dashSpeed * _dirMult);
@@ -282,13 +282,13 @@ public class PlayerController : MonoBehaviour
 
         //if exit direction is upwards
         if (_exitDir.y > 0)
-        { 
+        {
             rb.linearVelocity = jumpForce * _exitDir;
         }
 
         //if exit direction requires horizontal movement
         if (_exitDir.x > 0)
-        { 
+        {
             xAxis = _exitDir.x > 0 ? 1 : -1;
 
             Move();
@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (yAxis < 0 && !Grounded())
             {
-                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, Vector2.down,  recoilYSpeed);
+                Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, Vector2.down, recoilYSpeed);
                 SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
             }
         }
@@ -334,14 +334,14 @@ public class PlayerController : MonoBehaviour
         List<EnemyController> hitEnemies = new List<EnemyController>();
 
         if (objectsToHit.Length > 0)
-        { 
+        {
             _recoilBool = true;
         }
 
-        for (int i = 0; i < objectsToHit.Length; i++) 
+        for (int i = 0; i < objectsToHit.Length; i++)
         {
             EnemyController e = objectsToHit[i].GetComponent<EnemyController>();
-            if (e != null && !hitEnemies.Contains(e)) 
+            if (e != null && !hitEnemies.Contains(e))
             {
                 //e.EnemyHit(damage, _recoilDir, _recoilStrength);
                 hitEnemies.Add(e);
@@ -388,7 +388,7 @@ public class PlayerController : MonoBehaviour
             }
             airJumpCounter = 0;
         }
-        else 
+        else
         {
             rb.gravityScale = gravity;
         }
@@ -398,9 +398,9 @@ public class PlayerController : MonoBehaviour
         {
             stepsXRecoiled++;
         }
-        else 
+        else
         {
-            StopRecoilX(); 
+            StopRecoilX();
         }
         if (pState.recoilingY && stepsYRecoiled < recoilYSteps)
         {
@@ -417,8 +417,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void StopRecoilX() 
-    { 
+    void StopRecoilX()
+    {
         stepsXRecoiled = 0;
         pState.recoilingX = false;
     }
@@ -429,7 +429,7 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator Flash() //This animated the character to flash.
-    { 
+    {
         sr.enabled = !sr.enabled;
         canFlash = false;
         yield return new WaitForSeconds(0.2f);
@@ -445,7 +445,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Flash());
             }
         }
-        else 
+        else
         {
             sr.enabled = true;
         }
@@ -454,10 +454,10 @@ public class PlayerController : MonoBehaviour
 
     public bool Grounded() //Uses raycast instead of a collider to check for the ground.
     {
-        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround) 
+        if (Physics2D.Raycast(groundCheckPoint.position, Vector2.down, groundCheckY, whatIsGround)
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround)
             || Physics2D.Raycast(groundCheckPoint.position + new Vector3(-groundCheckX, 0, 0), Vector2.down, groundCheckY, whatIsGround))
-        { 
+        {
             return true;
         }
         else
@@ -479,10 +479,10 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
         }
 
-        
+
     }
 
-    void OnJumpCanceled(InputAction.CallbackContext ctx) 
+    void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
         jumping = false;
     }
@@ -496,7 +496,7 @@ public class PlayerController : MonoBehaviour
             airJumpCounter = 0;
         }
 
-        else 
+        else
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
@@ -506,9 +506,21 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter = jumpBufferFrames;
         }
 
-        else 
+        else
         {
             jumpBufferCounter = jumpBufferCounter - Time.deltaTime * 10;
         }
+    }
+    
+    // Enables the player controller component
+    public void EnableControl()
+    {
+        this.enabled = true;
+    }
+
+    // Disables the player controller component
+    public void DisableControl()
+    {
+        this.enabled = false;
     }
 }
