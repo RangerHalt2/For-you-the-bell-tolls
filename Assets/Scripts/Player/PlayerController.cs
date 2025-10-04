@@ -77,9 +77,6 @@ public class PlayerController : MonoBehaviour, IController
     [SerializeField] GameObject damageEffect;
     [Space(5)]
 
-    [Header("Camera")]
-    [SerializeField] private float playerFallSpeedThreshold = -10;
-
     private bool canFlash = true; //This is a damage effect. The player is supposed to flash when taking damage.
 
     public static PlayerController Instance;
@@ -151,13 +148,10 @@ public class PlayerController : MonoBehaviour, IController
 
         GetInputs();
         UpdateJumpVariables();
-        UpdateCameraYDampForPlayerFall();
 
         if (pState.dashing) return;
         FlashWhileInvincible();
         Move();
-        //Heal();
-        //CastSpell();
 
         if (pState.healing) return;
 
@@ -167,6 +161,11 @@ public class PlayerController : MonoBehaviour, IController
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
             pState.jumping = true;
+        }
+
+        if (Grounded())
+        {
+            dashed = false;
         }
 
         //anim.SetBool("Jumping", !Grounded());
@@ -217,34 +216,12 @@ public class PlayerController : MonoBehaviour, IController
         //anim.SetBool("Walking", rb.linearVelocity.x != 0 && Grounded());
     }
 
-    void UpdateCameraYDampForPlayerFall() //Makes the player's camera dynamic on falling.
-    {
-        //if falling past a certain speed threshold
-        if (rb.linearVelocity.y < playerFallSpeedThreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.hasLerpedYDamping)
-        {
-            StartCoroutine(CameraManager.Instance.LerpYDamping(true));
-        }
-
-        //if standing still or moving up
-        if (rb.linearVelocity.y >= 0 && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.hasLerpedYDamping)
-        {
-            //reset camera function
-            CameraManager.Instance.hasLerpedYDamping = false;
-            StartCoroutine(CameraManager.Instance.LerpYDamping(false));
-        }
-    }
-
     void StartSprint(InputAction.CallbackContext ctx) //The actual dash is the colorful coroutine that follows, but TL;DR, you can dash through certain things (Characters and objects)
     {
         if (canDash && !dashed && !pState.healing)
         {
             StartCoroutine(Dash());
             dashed = true;
-        }
-
-        if (Grounded())
-        {
-            dashed = false;
         }
     }
 
@@ -268,6 +245,7 @@ public class PlayerController : MonoBehaviour, IController
         //if (Grounded()) Instantiate(dashEffect, transform); //This is a dash effect on the ground. Not neccesary.
         gameObject.layer = LayerMask.NameToLayer("Warping");
         yield return new WaitForSeconds(dashTime);
+        rb.linearVelocity = new Vector2(0, 0);
         gameObject.layer = LayerMask.NameToLayer("Default");
         rb.gravityScale = gravity;
         pState.invincible = false;
