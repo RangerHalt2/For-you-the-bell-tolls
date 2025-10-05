@@ -27,7 +27,7 @@ public class PossessionManager : MonoBehaviour
     [SerializeField] LayerMask possessionLayerMask;
 
     private PossessionManager currentTarget;
-
+    private Decay targetDecay;
 
     [Header("Possession Challenge")]
     [SerializeField] private PossessionChallengeBar possessionChallengeBar;
@@ -153,7 +153,15 @@ public class PossessionManager : MonoBehaviour
         {
             // Set the closest object as the new possesion target
             currentTarget = closestPossession;
+            targetDecay = closestPossession.gameObject.GetComponent<Decay>();
             Debug.Log("Ready to possess: " + currentTarget.gameObject.name);
+
+            //LB: If the player has possessed this target already, skip the mini-game
+            if (targetDecay != null && targetDecay.GetPossessed())
+            {
+                Possess();
+                return;
+            }
 
             currentTarget.possessionChallengeBar.StartChallenge();
 
@@ -199,14 +207,30 @@ public class PossessionManager : MonoBehaviour
         {
             return;
         }
+        
+        //LB: Player Ghost is coming up null the first possession here
+        if(playerGhost == null)
+        {
+            FindGhostInScene();
+        }
+
+        //LB: Get the Death Manager and disable the fading of the ghost
+        DeathManager deathManager = playerGhost.GetComponent<DeathManager>();
+        deathManager.SetIsFading(false);
 
         // Disable Current Body
-            _controller.DisableControl();
+        _controller.DisableControl();
         isCurrentBody = false;
 
         // Enable New Body
         currentTarget.isCurrentBody = true;
         currentTarget._controller.EnableControl();
+
+        //LB: Start the decay
+        targetDecay.SetDecaying(true);
+        targetDecay.SetPossessed(true);
+        targetDecay.SetIsDestroying(false);
+        targetDecay.ResetDestroyTimer();
 
         Debug.Log("Possession Manager: Moved from " + gameObject.name + " to " + currentTarget.name + ".");
 
@@ -217,7 +241,7 @@ public class PossessionManager : MonoBehaviour
     }
 
     // Allows for the ghost to exit a host body
-    void ExitHost()
+    public void ExitHost()
     {
         // Ensure player's ghost is not performing this check
         if (isPlayerGhost)
@@ -233,11 +257,28 @@ public class PossessionManager : MonoBehaviour
             return;
         }
 
+        //LB: Find the Decay script of the thing the player is leaving
+        targetDecay = GetComponent<Decay>();
+
         // Move the ghost to the current body's position
         playerGhost.transform.position = transform.position;
 
-        // Reactivate the player ghost object
-        playerGhost.SetActive(true);
+        //LB: Handle Exit Decay Elements
+        if(targetDecay != null)
+        {
+            //Debug.Log("Target Decay Not Null");
+            targetDecay.SetDecaying(false);
+            targetDecay.SetIsDestroying(true);
+            targetDecay.EmptyDecayBar();
+        }
+        else
+        {
+            Debug.Log("Target Decay is Null");
+        }
+
+
+            // Reactivate the player ghost object
+            playerGhost.SetActive(true);
 
         // Find Ghost's Possession Manager
         PossessionManager ghostPM = playerGhost.GetComponent<PossessionManager>();
@@ -253,6 +294,11 @@ public class PossessionManager : MonoBehaviour
         // Disable current body's controls
         _controller.DisableControl();
         isCurrentBody = false;
+
+        //LB: Get their death manager and then enable the death manager fading to be true
+        DeathManager deathManager = playerGhost.GetComponent<DeathManager>();
+        deathManager.SetIsFading(true);
+        deathManager.ResetFadeTimer();
 
         Debug.Log(gameObject.name + " exited. Control returned to ghost");
     }

@@ -84,7 +84,14 @@ public class PlayerController : MonoBehaviour, IController
     private float gravity;
     private SpriteRenderer sr;
 
-
+    //LB: a variable to block all inputs when the player is dead
+    private bool isDead = false;
+    //Update and tell the controller that the player is dead
+    public void SetIsDead(bool isDead)
+    {
+        this.isDead = isDead;
+    }
+    
     private void Awake()
     {
         //Wake up player controls
