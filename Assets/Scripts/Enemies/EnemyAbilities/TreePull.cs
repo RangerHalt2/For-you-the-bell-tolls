@@ -10,7 +10,7 @@ public class TreePull : MonoBehaviour
     public float wallLifetime = 1f;
 
     [Header("Trigger Settings")]
-    public Transform player;
+    public LayerMask playerLayer;
     public float triggerRange = 6f;
 
     [Header("Facing Direction")]
@@ -31,16 +31,32 @@ public class TreePull : MonoBehaviour
 
     void FixedUpdate()
     {
+        Collider2D playerCollider = Physics2D.OverlapCircle(transform.position, triggerRange, playerLayer);
+
+        if (playerCollider != null)
+        {
+            Vector3 playerPos = playerCollider.transform.position;
+            float dirToPlayer = playerPos.x - transform.position.x;
+
+            if (Mathf.Abs(dirToPlayer) > 0.1f)
+            {
+                direction = dirToPlayer > 0 ? 1 : -1;
+
+                if (GetComponentInChildren<SpriteRenderer>() is SpriteRenderer sr)
+                {
+                    sr.flipX = (direction == 1);
+                }
+            }
+
+            if (summonedWall == null && !isOnCooldown)
+            {
+                SummonWall();
+            }
+        }
+
         if (isSummoning)
         {
             PullWall();
-            return;
-        }
-
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer <= triggerRange && summonedWall == null && !isOnCooldown)
-        {
-            SummonWall();
         }
     }
 
@@ -83,14 +99,5 @@ public class TreePull : MonoBehaviour
         }
 
         summonedWall.transform.position = Vector3.MoveTowards(summonedWall.transform.position, transform.position, pullSpeed * Time.deltaTime);
-    }
-
-    public void Flip()
-    {
-        direction *= -1;
-        if (GetComponentInChildren<SpriteRenderer>() is SpriteRenderer sr)
-        {
-            sr.flipX = (direction == 1);
-        }
     }
 }
