@@ -1,7 +1,6 @@
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.PlayerLoop;
 using Unity.VisualScripting;
@@ -28,6 +27,8 @@ public class PossessionChallengeBar : MonoBehaviour
     [SerializeField] private Image sweetSpot;
     [Tooltip("Reference to the \"Hit Marker\" of the bar. Shows where the player will hit when they ineract with the challenge.")]
     [SerializeField] private Image hitMarker;
+    [Tooltip("Reference to the border of the bar.")]
+    [SerializeField] private Image border;
 
     [Header("Effect references")]
     [Tooltip("Effect which should play on successful hit.")]
@@ -335,6 +336,7 @@ public class PossessionChallengeBar : MonoBehaviour
         backgroundBarImage.gameObject.SetActive(false);
         sweetSpot.gameObject.SetActive(false);
         hitMarker.gameObject.SetActive(false);
+        border.gameObject.SetActive(false);
     }
 
     // Enables all visual componenets of the challenge bar
@@ -343,6 +345,7 @@ public class PossessionChallengeBar : MonoBehaviour
         backgroundBarImage.gameObject.SetActive(true);
         sweetSpot.gameObject.SetActive(true);
         hitMarker.gameObject.SetActive(true);
+        border.gameObject.SetActive(true);
     }
     #endregion
 }

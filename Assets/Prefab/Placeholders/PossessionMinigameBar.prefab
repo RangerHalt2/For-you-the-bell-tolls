@@ -279,6 +279,7 @@ MonoBehaviour:
   backgroundBarImage: {fileID: 849634036034948554}
   sweetSpot: {fileID: 8689970806358103863}
   hitMarker: {fileID: 1369845807191464825}
+  border: {fileID: 0}
   minigameHitEffect: {fileID: 8594530777311971622, guid: b996714c5c004284d9f85bd70baaebda, type: 3}
   minigameMissEffect: {fileID: 0}
   minigameWinEffect: {fileID: 0}
