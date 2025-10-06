@@ -39,8 +39,7 @@ public class PossessionChallengeBar : MonoBehaviour
     [Tooltip("Effect which should play when loosing the minigame.")]
     [SerializeField] private GameObject minigameLossEffect;
 
-    [Header("Input Settings")]
-    [SerializeField] private InputAction interactAction;
+    private InputManager inputManager;
 
     private Coroutine challengeCoroutine;
     private bool possessionChallengeActive = false;
@@ -50,6 +49,7 @@ public class PossessionChallengeBar : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        inputManager = GameObject.FindAnyObjectByType<InputManager>();
         // Reset Hit Marker to starting position
         ResetHitMarker();
         // Update the width of the sweet spot
@@ -105,9 +105,6 @@ public class PossessionChallengeBar : MonoBehaviour
         // Get the local position of the hit marker
         UnityEngine.Vector3 position = hitMarkerRect.localPosition;
 
-        // Enable player's input
-        interactAction.Enable();
-
         // Ensure the hitmarker is at the starting position
         ResetHitMarker();
         // Randomize initial location
@@ -122,7 +119,7 @@ public class PossessionChallengeBar : MonoBehaviour
             hitMarkerRect.localPosition = position;
 
             // If player presses the interact key
-            if (interactAction.WasPressedThisFrame())
+            if (inputManager.interactAction.WasPressedThisFrame())
             {
                 bool hit = hitSweetSpot();
 
@@ -144,8 +141,6 @@ public class PossessionChallengeBar : MonoBehaviour
                         {
                             Instantiate(minigameWinEffect, transform.position, transform.rotation, null);
                         }
-                        // Disable the interact acction
-                        interactAction.Disable();
                         
                         yield return new WaitForSeconds(0.25f);
                         // Set result to 0 (Won)
@@ -172,8 +167,6 @@ public class PossessionChallengeBar : MonoBehaviour
                         {
                             Instantiate(minigameLossEffect, transform.position, transform.rotation, null);
                         }
-                        // Disable the interact acction
-                        interactAction.Disable();
                         yield return new WaitForSeconds(0.25f);
                         // Set result to 1 (Lost)
                         challengeResult = 1;
@@ -204,8 +197,6 @@ public class PossessionChallengeBar : MonoBehaviour
                     {
                         Instantiate(minigameLossEffect, transform.position, transform.rotation, null);
                     }
-                    // Disable the interact acction
-                    interactAction.Disable();
                     yield return new WaitForSeconds(0.25f);
                     // Set result to 0 (Won)
                     challengeResult = 1;

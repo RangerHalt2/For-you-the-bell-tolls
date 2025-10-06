@@ -7,6 +7,7 @@ TagManager:
   - Death
   - PlayerGhost
   - DecayBar
+  - Enemy
   layers:
   - Default
   - TransparentFX

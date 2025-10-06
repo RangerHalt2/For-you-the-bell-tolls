@@ -17,7 +17,7 @@ public class PossessionManager : MonoBehaviour
     [SerializeField] private GameObject playerGhost;
 
     [Header("Controller Settings")]
-    [SerializeField] private MonoBehaviour controller;
+    [SerializeField] private PlayerController controller;
     private IController _controller;
 
     [Header("Possession Settings")]
@@ -25,6 +25,9 @@ public class PossessionManager : MonoBehaviour
     [SerializeField] private float detectionRadius = 5f;
     [Tooltip("The layer mask checked when looking for objects to possess.")]
     [SerializeField] LayerMask possessionLayerMask;
+    [Tooltip("Possession Intiation Cooldown Internally")]
+    [SerializeField] private float possessCooldown = 1f;
+                     private float possessTimer = 0f;
 
     private PossessionManager currentTarget;
     private Decay targetDecay;
@@ -32,29 +35,10 @@ public class PossessionManager : MonoBehaviour
     [Header("Possession Challenge")]
     [SerializeField] private PossessionChallengeBar possessionChallengeBar;
 
-    [Header("Input Settings")]
-    [SerializeField] private InputAction possessAction;
-    [SerializeField] private InputAction exitAction;
+    private InputManager inputManager;
+
     #endregion
 
-    void OnEnable()
-    {
-        possessAction.Enable();
-        possessAction.performed += OnPossessPerformed;
-
-        exitAction.Enable();
-        exitAction.performed += OnExitPerformed;
-    }
-
-    void OnDisable()
-    {
-        possessAction.performed -= OnPossessPerformed;
-        possessAction.Disable();
-
-        exitAction.performed -= OnExitPerformed;
-        exitAction.Enable();
-
-    }
 
     public void Awake()
     {
@@ -80,6 +64,7 @@ public class PossessionManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        inputManager = GameObject.FindAnyObjectByType<InputManager>();
         // If this is the player's ghost
         if (isPlayerGhost)
         {
@@ -95,22 +80,29 @@ public class PossessionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (inputManager.PossessInput && possessTimer <= 0) OnPossessPerformed();
+        if (inputManager.ExitInput) OnExitPerformed();
+
+        possessTimer -= Time.deltaTime;
+
         if (isCurrentBody)
         {
             return;
         }
     }
 
-    private void OnPossessPerformed(InputAction.CallbackContext context)
+    private void OnPossessPerformed()
     {
         // If the player is in this body, and they are currently the ghost
         if (isCurrentBody && isPlayerGhost)
         {
+            possessTimer = possessCooldown; //gives like a half second delay so it doesn't spam it when they press it
             AttemptPossession();
         }
     }
 
-    private void OnExitPerformed(InputAction.CallbackContext context)
+    private void OnExitPerformed()
     {
         // If the player is in this body and it is not the ghost
         if (isCurrentBody && !isPlayerGhost)
@@ -124,13 +116,13 @@ public class PossessionManager : MonoBehaviour
     void AttemptPossession()
     {
         // Create an array of all objects within the detectionRadius in the possessionLayerMask
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, possessionLayerMask);
+        Collider2D [] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius, possessionLayerMask);
 
         float closestDistance = Mathf.Infinity;
         PossessionManager closestPossession = null;
 
         // Check each collider hit
-        foreach (Collider hit in hits)
+        foreach (Collider2D hit in hits)
         {
             // If the object has the possession manager
             PossessionManager pm = hit.GetComponent<PossessionManager>();
@@ -224,6 +216,7 @@ public class PossessionManager : MonoBehaviour
 
         // Enable New Body
         currentTarget.isCurrentBody = true;
+        currentTarget.gameObject.layer = LayerMask.NameToLayer("Player");
         currentTarget._controller.EnableControl();
 
         //LB: Start the decay
@@ -231,6 +224,8 @@ public class PossessionManager : MonoBehaviour
         targetDecay.SetPossessed(true);
         targetDecay.SetIsDestroying(false);
         targetDecay.ResetDestroyTimer();
+
+        
 
         Debug.Log("Possession Manager: Moved from " + gameObject.name + " to " + currentTarget.name + ".");
 

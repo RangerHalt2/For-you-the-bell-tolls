@@ -42,6 +42,11 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    private void GetNewPlayer()
+    {
+
+    }
+
     void Patrol()
     {
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
@@ -84,7 +89,7 @@ public class EnemyMovement : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, distance, groundLayer | playerLayer);
 
-        return hit.collider != null && hit.collider.CompareTag("Player");
+        return hit.collider != null && hit.collider.gameObject.layer == playerLayer;
     }
 
     void Flip()

@@ -11,10 +11,13 @@ public class PlayerController : MonoBehaviour, IController
     private float xAxis, yAxis;
     public Rigidbody2D rb;
     Animator anim;
-
+    /*
     [Header("Inputs")]
     private IA_Main playerControls;
     private PlayerInput playerInput;
+    */
+
+    private InputManager inputManager;
 
     [Header("Horizontal Movement")]
     [SerializeField] private float walkSpeed = 1;
@@ -51,8 +54,8 @@ public class PlayerController : MonoBehaviour, IController
     bool attack = false;
     [SerializeField] private float timeBetweenAttack;
     private float timeSinceAttack;
-    [SerializeField] Transform SideAttackTransform, UpAttackTransform, DownAttackTransform;
-    [SerializeField] Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
+    [SerializeField] private Transform SideAttackTransform, UpAttackTransform, DownAttackTransform;
+    [SerializeField] private Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
     [SerializeField] LayerMask attackableLayer;
     [SerializeField] float damage;
     [SerializeField] GameObject slashEffect;
@@ -94,10 +97,7 @@ public class PlayerController : MonoBehaviour, IController
     
     private void Awake()
     {
-        //Wake up player controls
-        playerControls = new IA_Main();
-        playerInput = GetComponent<PlayerInput>();
-
+        /*
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -108,38 +108,21 @@ public class PlayerController : MonoBehaviour, IController
         }
 
         DontDestroyOnLoad(gameObject);
-
+        */
         timeSinceAttack = timeBetweenAttack;
-    }
-
-    void OnEnable()
-    {
-        playerControls.Enable();
-        playerControls.Player.Sprint.performed += StartSprint;
-        playerControls.Player.Jump.performed += OnJump;
-        playerControls.Player.Jump.canceled += OnJumpCanceled;
-        playerControls.Player.Attack.performed += Attack;
-    }
-
-    void OnDisable()
-    {
-        playerControls.Disable();
-        playerControls.Player.Sprint.performed -= StartSprint;
-        playerControls.Player.Jump.performed -= OnJump;
-        playerControls.Player.Jump.canceled -= OnJumpCanceled;
-        playerControls.Player.Attack.performed -= Attack;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        inputManager = GameObject.FindAnyObjectByType<InputManager>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         pState = GetComponent<PlayerStateList>();
         gravity = rb.gravityScale;
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
-
+    
     private void OnDrawGizmos() //Visualize, in editor, where the attacks are. That's all
     {
         Gizmos.color = Color.red;
@@ -147,11 +130,14 @@ public class PlayerController : MonoBehaviour, IController
         Gizmos.DrawWireCube(UpAttackTransform.position, UpAttackArea);
         Gizmos.DrawWireCube(DownAttackTransform.position, DownAttackArea);
     }
+    
 
     // Update is called once per frame
     void Update()
     {
         if (pState.cutscene) return;
+
+        JumpingVariableConfirm();
 
         GetInputs();
         UpdateJumpVariables();
@@ -163,16 +149,25 @@ public class PlayerController : MonoBehaviour, IController
         if (pState.healing) return;
 
         //Updates jumps only if not healing
+
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0 && !pState.jumping) //Essentially says if you're not jumping, try to, and are not out of Coyote Time, jump
-                                                                               //The jump method MAKES jumpBufferCounter > 0 through UpdateJumpVariables
-        {
+        {                                                                      //The jump method MAKES jumpBufferCounter > 0 through UpdateJumpVariables
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
             pState.jumping = true;
         }
 
+        if (inputManager.AttackInput) Attack();
+
+        if (inputManager.JumpInput) OnJump();
+
         if (Grounded())
         {
             dashed = false;
+        }
+        if(canDash && !dashed && inputManager.DashInput)
+        {
+            StartCoroutine(Dash());
+            dashed = true;
         }
 
         //anim.SetBool("Jumping", !Grounded());
@@ -192,15 +187,22 @@ public class PlayerController : MonoBehaviour, IController
         Recoil();
     }
 
+    private void JumpingVariableConfirm()
+    {
+        if (inputManager.JumpInput)
+        {
+            jumping = true;
+        }
+        else
+        {
+            jumping = false;
+        }
+    }
+
     void GetInputs() //Takes player inputs, namely WASD type inputs right now.
     {
-        xAxis = playerControls.Player.Move.ReadValue<Vector2>().x;
-        yAxis = playerControls.Player.Move.ReadValue<Vector2>().y;
-
-        /*if (Input.GetButton("Cast/Heal"))
-        {
-            castOrHealTimer += Time.deltaTime;
-        }*/
+        xAxis = inputManager.MoveInput.x;
+        yAxis = inputManager.MoveInput.y;
     }
 
     void Flip() //Simple just flip the PC if they're walking left as opposed to right. This flips what counts as "forward" for stuff like attacking as well.
@@ -223,14 +225,7 @@ public class PlayerController : MonoBehaviour, IController
         //anim.SetBool("Walking", rb.linearVelocity.x != 0 && Grounded());
     }
 
-    void StartSprint(InputAction.CallbackContext ctx) //The actual dash is the colorful coroutine that follows, but TL;DR, you can dash through certain things (Characters and objects)
-    {
-        if (canDash && !dashed && !pState.healing)
-        {
-            StartCoroutine(Dash());
-            dashed = true;
-        }
-    }
+    
 
     IEnumerator Dash() //Calculation and application of dash direction and magnitude
     {
@@ -253,7 +248,7 @@ public class PlayerController : MonoBehaviour, IController
         gameObject.layer = LayerMask.NameToLayer("Warping");
         yield return new WaitForSeconds(dashTime);
         rb.linearVelocity = new Vector2(0, 0);
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        gameObject.layer = LayerMask.NameToLayer("Player");
         rb.gravityScale = gravity;
         pState.invincible = false;
         pState.dashing = false;
@@ -285,10 +280,11 @@ public class PlayerController : MonoBehaviour, IController
         pState.cutscene = false;
     }
 
-    void Attack(InputAction.CallbackContext ctx) //Wonder what this does. Checks time since attack, and sets the attack in the transform that's previously set
+    private void Attack() //Wonder what this does. Checks time since attack, and sets the attack in the transform that's previously set
     {
+        Debug.Log("Attacked!");
         timeSinceAttack += Time.deltaTime;
-        if (attack && timeSinceAttack >= timeBetweenAttack)
+        if (timeSinceAttack >= timeBetweenAttack)
         {
             timeSinceAttack = 0;
             //anim.SetTrigger("Attacking");
@@ -298,17 +294,17 @@ public class PlayerController : MonoBehaviour, IController
                 int _recoilLeftOrRight = pState.lookingRight ? 1 : -1;
 
                 Hit(SideAttackTransform, SideAttackArea, ref pState.recoilingX, Vector2.right * _recoilLeftOrRight, recoilXSpeed);
-                Instantiate(slashEffect, SideAttackTransform);
+                //Instantiate(slashEffect, SideAttackTransform);
             }
             else if (yAxis > 0)
             {
                 Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, Vector2.up, recoilYSpeed);
-                SlashEffectAtAngle(slashEffect, 90, UpAttackTransform);
+                //SlashEffectAtAngle(slashEffect, 90, UpAttackTransform);
             }
             else if (yAxis < 0 && !Grounded())
             {
                 Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, Vector2.down, recoilYSpeed);
-                SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
+                //SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
             }
         }
     }
@@ -451,7 +447,7 @@ public class PlayerController : MonoBehaviour, IController
         }
     }
 
-    void OnJump(InputAction.CallbackContext ctx) //Wonder what this does
+    private void OnJump() //LB: Please actually explain how the function does stuff if it's obvious what the function is doing, don't goof on me >:(
     {
         jumping = true;
 
@@ -467,20 +463,22 @@ public class PlayerController : MonoBehaviour, IController
 
     }
 
-    void OnJumpCanceled(InputAction.CallbackContext ctx)
-    {
-        jumping = false;
-    }
-
     void UpdateJumpVariables()
     {
+        if (Grounded())
+        {
+            //Debug.Log("Grounded");
+        }
+        else if (!Grounded())
+        {
+            //Debug.Log("Not Grounded!");
+        }
         if (Grounded())
         {
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpCounter = 0;
         }
-
         else
         {
             coyoteTimeCounter -= Time.deltaTime;
