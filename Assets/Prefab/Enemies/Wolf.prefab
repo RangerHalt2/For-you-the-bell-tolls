@@ -127,7 +127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5527512257207447295}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -22.07, y: 2.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -139,7 +139,7 @@ Transform:
   - {fileID: 92380412874786435}
   - {fileID: 1420147090124083543}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!50 &5526926626977364504
 Rigidbody2D:
   serializedVersion: 5
@@ -326,7 +326,7 @@ MonoBehaviour:
   DownAttackArea: {x: 2, y: 1.3}
   attackableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   damage: 0
   slashEffect: {fileID: 0}
   recoilXSteps: 5
@@ -374,7 +374,7 @@ MonoBehaviour:
   detectionRadius: 5
   possessionLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 136
   possessCooldown: 1
   possessionChallengeBar: {fileID: 350840002625776084}
 --- !u!114 &1051659477476214439

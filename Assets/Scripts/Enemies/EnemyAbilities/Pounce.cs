@@ -16,21 +16,36 @@ public class Pounce : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            player = playerObj.transform;
-        }
+        //GameObject playerObj = GameObject.FindAnyObjectByType<PlayerController>();
+        //if (playerObj != null)
+        //{
+        //    player = playerObj.transform;
+        //}
 
         lastPounceTime = -pounceCooldown;
     }
 
     void Update()
     {
+        FindPlayer();
+        if (player == this.transform) return;
+
         if (CanPounce())
         {
             PouncePl();
         }
+    }
+
+    //LB: This finds the current player object, it will only ever read one player at a time because FindAnyObjectsByType searches only active components.
+    private void FindPlayer()
+    {
+        GameObject go = GameObject.FindAnyObjectByType<PlayerController>().gameObject;
+        if (go == null)
+        {
+            Debug.Log("It did not find an active player!");
+            return;
+        }
+        player = go.transform;
     }
 
     bool CanPounce()

@@ -170,6 +170,7 @@ public class PossessionManager : MonoBehaviour
 
         EnemyMovement em = currentTarget.GetComponent<EnemyMovement>();
         EnemyFlyingMovement emFlying = currentTarget.GetComponent<EnemyFlyingMovement>();
+        Pounce pounce = currentTarget.GetComponent<Pounce>();
 
         if (em != null)
         {
@@ -178,6 +179,10 @@ public class PossessionManager : MonoBehaviour
         if (emFlying != null)
         {
             emFlying.enabled = false;
+        }
+        if (pounce != null)
+        {
+            pounce.enabled = false;
         }
 
         // Disable Player controls while waiting for challenge to finish
@@ -207,8 +212,12 @@ public class PossessionManager : MonoBehaviour
             {
                 emFlying.enabled = true;
             }
+            if(pounce != null)
+            {
+                pounce.enabled = true;
+            }
             _controller.EnableControl();
-            Debug.Log("Possession Challenge failed.");
+            Debug.Log("Possession Challenge Failed.");
             currentTarget = null;
         }
     }
@@ -233,7 +242,7 @@ public class PossessionManager : MonoBehaviour
         deathManager.SetIsFading(false);
 
         // Disable Current Body
-        _controller.DisableControl();
+        //_controller.DisableControl(); //Already done in the minigame??
         isCurrentBody = false;
 
         // Enable New Body
@@ -246,8 +255,6 @@ public class PossessionManager : MonoBehaviour
         targetDecay.SetPossessed(true);
         targetDecay.SetIsDestroying(false);
         targetDecay.ResetDestroyTimer();
-
-        
 
         Debug.Log("Possession Manager: Moved from " + gameObject.name + " to " + currentTarget.name + ".");
 
@@ -300,6 +307,9 @@ public class PossessionManager : MonoBehaviour
         // Find Ghost's Possession Manager
         PossessionManager ghostPM = playerGhost.GetComponent<PossessionManager>();
 
+        // Disable current body's controls
+        _controller.DisableControl();
+
         // If Ghost's Possession Manager was found
         if (ghostPM != null)
         {
@@ -308,8 +318,7 @@ public class PossessionManager : MonoBehaviour
             Debug.Log("Returned control to ghost");
         }
 
-        // Disable current body's controls
-        _controller.DisableControl();
+        
         isCurrentBody = false;
 
         //LB: Get their death manager and then enable the death manager fading to be true
