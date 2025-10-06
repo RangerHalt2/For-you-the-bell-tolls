@@ -283,20 +283,3 @@ MonoBehaviour:
   minigameMissEffect: {fileID: 0}
   minigameWinEffect: {fileID: 0}
   minigameLossEffect: {fileID: 0}
-  interactAction:
-    m_Name: Interact
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: b41ab1de-f0d2-4767-86a4-efc6863abaa1
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 06de60f4-ffe0-41b6-bac9-b68376b95d18
-      m_Path: <Keyboard>/space
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Interact
-      m_Flags: 0
-    m_Flags: 0
