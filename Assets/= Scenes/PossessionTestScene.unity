@@ -1980,6 +1980,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7134175542217762870, guid: bde381237a5f7984ea371e880a9d7ec6, type: 3}
+      propertyPath: jumpBufferFrames
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134175542217762870, guid: bde381237a5f7984ea371e880a9d7ec6, type: 3}
       propertyPath: attackableLayer.m_Bits
       value: 128
       objectReference: {fileID: 0}

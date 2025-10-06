@@ -167,6 +167,19 @@ public class PossessionManager : MonoBehaviour
 
     private IEnumerator WaitForPossessionChallenge(PossessionManager target)
     {
+
+        EnemyMovement em = currentTarget.GetComponent<EnemyMovement>();
+        EnemyFlyingMovement emFlying = currentTarget.GetComponent<EnemyFlyingMovement>();
+
+        if (em != null)
+        {
+            em.enabled = false;
+        }
+        if (emFlying != null)
+        {
+            emFlying.enabled = false;
+        }
+
         // Disable Player controls while waiting for challenge to finish
         _controller.DisableControl();
 
@@ -185,6 +198,15 @@ public class PossessionManager : MonoBehaviour
         }
         else
         {
+
+            if (em != null)
+            {
+                em.enabled = true;
+            }
+            if (emFlying != null)
+            {
+                emFlying.enabled = true;
+            }
             _controller.EnableControl();
             Debug.Log("Possession Challenge failed.");
             currentTarget = null;

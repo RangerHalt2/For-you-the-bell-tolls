@@ -125,7 +125,7 @@ MonoBehaviour:
   detectionRadius: 5
   possessionLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   possessCooldown: 0.5
   possessionChallengeBar: {fileID: 0}
 --- !u!114 &5632025407150673557

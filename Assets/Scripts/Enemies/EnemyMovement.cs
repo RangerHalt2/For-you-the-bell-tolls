@@ -5,7 +5,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("Movement")]
     public float speed = 2f;
     public int direction = -1;
-    private bool isChasing = false;
+    public bool isChasing = false;
 
     [Header("Raycast Settings")]
     public float groundCheckDistance = 1f;
@@ -85,11 +85,19 @@ public class EnemyMovement : MonoBehaviour
         if (player == null) return false;
 
         float distance = Vector2.Distance(transform.position, player.position);
-        if (distance > sightRange) return false;
+        Debug.Log("Checking their Distance");
+        if (distance > sightRange)
+        {
+            Debug.Log("Distance is too far");
+            return false;
+        }
+
+        Debug.Log("Distance is in range!");
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, distance, groundLayer | playerLayer);
 
-        return hit.collider != null && hit.collider.gameObject.layer == playerLayer;
+
+        return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player");
     }
 
     void Flip()

@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour, IController
     private void Hit(Transform _attackTransform, Vector2 _attackArea, ref bool _recoilBool, Vector2 _recoilDir, float _recoilStrength) //If the player deals damage. Can do multiple enemies
     {
         Collider2D[] objectsToHit = Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea, 0, attackableLayer);
-        List<EnemyController> hitEnemies = new List<EnemyController>();
+        //List<EnemyController> hitEnemies = new List<EnemyController>();
 
         if (objectsToHit.Length > 0)
         {
@@ -321,17 +321,19 @@ public class PlayerController : MonoBehaviour, IController
 
         for (int i = 0; i < objectsToHit.Length; i++)
         {
+            /*
             EnemyController e = objectsToHit[i].GetComponent<EnemyController>();
             if (e != null && !hitEnemies.Contains(e))
             {
                 //e.EnemyHit(damage, _recoilDir, _recoilStrength);
-                hitEnemies.Add(e);
+                //hitEnemies.Add(e);
 
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     //Mana += manaGain;
                 }
             }
+            */
         }
     }
 

@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 668825583319109754}
   - component: {fileID: 8930117674163982542}
   - component: {fileID: 1051659477476214439}
+  - component: {fileID: 2894750326860945160}
   m_Layer: 7
   m_Name: Wolf
   m_TagString: Untagged
@@ -136,7 +137,7 @@ Transform:
   - {fileID: 113248839218399194}
   - {fileID: 7871823274779897247}
   - {fileID: 92380412874786435}
-  - {fileID: 5021548431012155007}
+  - {fileID: 1420147090124083543}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5526926626977364504
@@ -165,7 +166,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &5200901570493450583
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -226,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   speed: 2
   direction: -1
+  isChasing: 0
   groundCheckDistance: 1
   wallCheckDistance: 1
   raycastOffset: {x: 0.5, y: 0}
@@ -308,7 +310,7 @@ MonoBehaviour:
   groundCheckX: 0.5
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   canDash: 1
   dashSpeed: 15
   dashTime: 0.5
@@ -372,9 +374,9 @@ MonoBehaviour:
   detectionRadius: 5
   possessionLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   possessCooldown: 1
-  possessionChallengeBar: {fileID: 0}
+  possessionChallengeBar: {fileID: 350840002625776084}
 --- !u!114 &1051659477476214439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,6 +398,33 @@ MonoBehaviour:
   healing: 0
   casting: 0
   cutscene: 0
+--- !u!114 &2894750326860945160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5527512257207447295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ded2e259eb32eb44a18ddfc2b14320a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  teamID: 0
+  maxHealth: 1
+  currentHealth: 1
+  healthBarActiveOnStartup: 0
+  healthBar: {fileID: 0}
+  healthDisplayText: {fileID: 0}
+  hitEffect: {fileID: 0}
+  deathEffect: {fileID: 0}
+  isPlayer: 0
+  gameOverCanvas: {fileID: 0}
+  inGameCanvas: {fileID: 0}
+  isDead: 0
+  damageNoise: {fileID: 0}
+  willDie: 0
+  stunTime: 0
 --- !u!1 &5752961294080594640
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +546,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &7709578001962198927
+--- !u!1001 &4393423787209504935
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -563,11 +592,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.007
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.007
+      value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
       propertyPath: m_LocalPosition.x
@@ -599,11 +628,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.016
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.93
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -622,8 +651,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
---- !u!224 &5021548431012155007 stripped
+--- !u!114 &350840002625776084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4046199180729651571, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
+  m_PrefabInstance: {fileID: 4393423787209504935}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4a5809a57ef4e43a074283542fdff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PossessionChallengeBar
+--- !u!224 &1420147090124083543 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3408648675780012528, guid: 0b66fd7931e751d4ba140fd3855c2557, type: 3}
-  m_PrefabInstance: {fileID: 7709578001962198927}
+  m_PrefabInstance: {fileID: 4393423787209504935}
   m_PrefabAsset: {fileID: 0}
