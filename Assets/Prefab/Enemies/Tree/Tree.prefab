@@ -181,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   speed: 2
   direction: -1
+  isChasing: 0
   groundCheckDistance: 1
   wallCheckDistance: 1
   raycastOffset: {x: 0.5, y: 0}
@@ -209,7 +210,9 @@ MonoBehaviour:
   summonDistance: 10
   pullSpeed: 5
   wallLifetime: 1
-  player: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   triggerRange: 6
   direction: -1
   cooldownDuration: 3
