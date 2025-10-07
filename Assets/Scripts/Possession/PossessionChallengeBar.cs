@@ -39,6 +39,9 @@ public class PossessionChallengeBar : MonoBehaviour
     [SerializeField] private GameObject minigameWinEffect;
     [Tooltip("Effect which should play when loosing the minigame.")]
     [SerializeField] private GameObject minigameLossEffect;
+    [Tooltip("Particle System which should play when losing the minigame.")]
+    [SerializeField] private GameObject jaimesPsysRef;
+    
 
     private InputManager inputManager;
 
@@ -143,6 +146,11 @@ public class PossessionChallengeBar : MonoBehaviour
                             Instantiate(minigameWinEffect, transform.position, transform.rotation, null);
                         }
                         
+                        if (jaimesPsysRef != null)
+                        {
+                            Instantiate(jaimesPsysRef, transform.position, transform.rotation, null);
+                        }
+
                         yield return new WaitForSeconds(0.25f);
                         // Set result to 0 (Won)
                         challengeResult = 0;

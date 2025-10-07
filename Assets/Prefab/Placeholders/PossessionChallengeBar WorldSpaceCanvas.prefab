@@ -462,3 +462,4 @@ MonoBehaviour:
   minigameMissEffect: {fileID: 0}
   minigameWinEffect: {fileID: 0}
   minigameLossEffect: {fileID: 0}
+  jaimesPsysRef: {fileID: 7700435653159467446, guid: fe32161a6c5f0ea40a9a4e6993b767bf, type: 3}

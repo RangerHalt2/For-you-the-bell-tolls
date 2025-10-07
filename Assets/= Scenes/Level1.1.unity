@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8073724818259394919, guid: 7aa284b18f7857d4fbec5da44a3956c6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.243
+      value: 0.249
       objectReference: {fileID: 0}
     - target: {fileID: 8073724818259394919, guid: 7aa284b18f7857d4fbec5da44a3956c6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2506,6 +2506,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   possessCooldown: 0.5
+  blueFlame: {fileID: 0}
   possessionChallengeBar: {fileID: 1662736951}
 --- !u!65 &1054545681
 BoxCollider:
@@ -2835,7 +2836,7 @@ Transform:
   m_GameObject: {fileID: 1102700548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.6569869, w: 0.753902}
-  m_LocalPosition: {x: -219.4592, y: 28.14, z: -1165.0162}
+  m_LocalPosition: {x: -208.62, y: 28.14, z: -1165.0162}
   m_LocalScale: {x: 55.057957, y: 12.492662, z: 21.632692}
   m_ConstrainProportionsScale: 0
   m_Children: []
