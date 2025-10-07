@@ -607,6 +607,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1573418200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &276660717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 276660719}
+  - component: {fileID: 276660718}
+  m_Layer: 0
+  m_Name: PauseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &276660718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276660717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1561eff68ddee4496203035e0fd961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseManager
+  pauseMenuUI: {fileID: 602927816}
+--- !u!4 &276660719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276660717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 603.7458, y: 265.63168, z: -699.38794}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &304403607
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +934,7 @@ MonoBehaviour:
   exitpossession: ExitPossession
   interact: Interact
   attack: Attack
+  pause: Pause
   interactAction:
     m_Name: Interact
     m_Type: 0
@@ -3252,6 +3298,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   possessCooldown: 0.5
+  blueFlame: {fileID: 0}
   possessionChallengeBar: {fileID: 1662736951}
 --- !u!65 &1054545681
 BoxCollider:
@@ -6234,3 +6281,4 @@ SceneRoots:
   - {fileID: 1881345155}
   - {fileID: 1573418200}
   - {fileID: 154747419}
+  - {fileID: 276660719}
