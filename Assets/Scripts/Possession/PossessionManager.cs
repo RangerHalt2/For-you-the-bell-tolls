@@ -300,6 +300,7 @@ public class PossessionManager : MonoBehaviour
             targetDecay.SetDecaying(false);
             targetDecay.SetIsDestroying(true);
             targetDecay.EmptyDecayBar();
+            targetDecay.gameObject.layer = LayerMask.NameToLayer("Attackable");
         }
         else
         {

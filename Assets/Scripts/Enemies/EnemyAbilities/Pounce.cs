@@ -39,13 +39,16 @@ public class Pounce : MonoBehaviour
     //LB: This finds the current player object, it will only ever read one player at a time because FindAnyObjectsByType searches only active components.
     private void FindPlayer()
     {
-        GameObject go = GameObject.FindAnyObjectByType<PlayerController>().gameObject;
-        if (go == null)
+        PlayerController[] playerControllers = GameObject.FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        foreach (PlayerController playerController in playerControllers)
         {
-            Debug.Log("It did not find an active player!");
-            return;
+            GameObject obj = playerController.gameObject;
+            if(obj != null && obj.layer == LayerMask.NameToLayer("Player"))
+            {
+                player = obj.transform;
+            }
         }
-        player = go.transform;
+        
     }
 
     bool CanPounce()
