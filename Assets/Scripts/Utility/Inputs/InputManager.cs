@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private string exitpossession = "ExitPossession";
     [SerializeField] private string interact = "Interact";
     [SerializeField] private string attack = "Attack";
+    [SerializeField] private string pause = "Pause";
 
     //LB: This is an action input, each one needs one assigned
     private InputAction moveAction;
@@ -30,6 +31,7 @@ public class InputManager : MonoBehaviour
     private InputAction exitAction;
     public InputAction interactAction;
     private InputAction attackAction;
+    private InputAction pauseAction;
     #endregion
 
     #region Getters/Setters
@@ -41,6 +43,7 @@ public class InputManager : MonoBehaviour
     public bool ExitInput {  get; private set; }
     public bool InteractInput { get; private set; }
     public bool AttackInput { get; private set; }
+    public bool PauseInput { get; private set; }
     #endregion
 
     #region Input Action Context and Values
@@ -68,6 +71,7 @@ public class InputManager : MonoBehaviour
         exitAction = playerControls.FindActionMap(actionMapName).FindAction(exitpossession);
         interactAction = playerControls.FindActionMap(actionMapName).FindAction(interact);
         attackAction = playerControls.FindActionMap(actionMapName).FindAction(attack);
+        pauseAction = playerControls.FindActionMap(actionMapName).FindAction(pause);
         RegisterInputActions();
     }
 
@@ -94,6 +98,9 @@ public class InputManager : MonoBehaviour
 
         attackAction.performed += context => AttackInput = true;
         attackAction.canceled += context => AttackInput = false;
+
+        pauseAction.performed += context => PauseInput = true;
+        pauseAction.canceled += context => PauseInput = false;
     }
     #endregion
 
@@ -108,6 +115,7 @@ public class InputManager : MonoBehaviour
         exitAction.Enable();
         interactAction.Enable();
         attackAction.Enable();
+        pauseAction.Enable();
     }
 
     private void OnDisable()
@@ -119,6 +127,7 @@ public class InputManager : MonoBehaviour
         exitAction.Disable();
         interactAction.Disable();
         attackAction.Disable();
+        pauseAction.Disable();
     }
     #endregion
 }

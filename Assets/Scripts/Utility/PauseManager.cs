@@ -8,10 +8,17 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseMenuUI;  // Assign your pause menu UI GameObject in the Inspector
     private bool isPaused = false;
 
+    private InputManager inputManager;
+
+    void Start()
+    {
+        inputManager = GameObject.FindAnyObjectByType<InputManager>();
+    }
+
     void Update()
     {
         // Toggle pause when pressing the Escape key
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (inputManager.PauseInput)
         {
             if (isPaused)
                 Resume();
