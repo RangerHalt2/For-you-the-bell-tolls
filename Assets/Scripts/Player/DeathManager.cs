@@ -56,6 +56,7 @@ public class DeathManager : MonoBehaviour
         {
             if (fadeTimer <= 0f)
             {
+                Cursor.lockState = CursorLockMode.None;
                 playerController.SetIsDead(true);
                 lossCanvas.gameObject.SetActive(true);
                 gameCanvas.gameObject.SetActive(false);
