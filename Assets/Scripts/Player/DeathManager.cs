@@ -11,8 +11,8 @@ public class DeathManager : MonoBehaviour
 
     private bool isFading = false;
 
-    private GameObject lossCanvas;
-    private GameObject gameCanvas;
+    public GameObject lossCanvas;
+    public GameObject gameCanvas;
 
     private Image fadeBar;
 
