@@ -240,6 +240,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  attackCooldown: 2
 --- !u!114 &2471292909848145121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,10 +334,6 @@ MonoBehaviour:
   recoilYSteps: 5
   recoilXSpeed: 100
   recoilYSpeed: 100
-  health: 0
-  maxHealth: 0
-  hitFlashSpeed: 0
-  timeToHeal: 0
   damageEffect: {fileID: 0}
   pState: {fileID: 0}
 --- !u!114 &668825583319109754
@@ -376,6 +373,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   possessCooldown: 1
+  blueFlame: {fileID: 0}
   possessionChallengeBar: {fileID: 350840002625776084}
 --- !u!114 &1051659477476214439
 MonoBehaviour:
@@ -416,7 +414,7 @@ MonoBehaviour:
   healthBarActiveOnStartup: 0
   healthBar: {fileID: 0}
   healthDisplayText: {fileID: 0}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 7700435653159467446, guid: f270851d220029c45bcceda7c528419a, type: 3}
   deathEffect: {fileID: 0}
   isPlayer: 0
   gameOverCanvas: {fileID: 0}
