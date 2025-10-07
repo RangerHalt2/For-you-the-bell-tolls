@@ -24,6 +24,7 @@ public class PauseManager : MonoBehaviour
                 Resume();
             else
                 Pause();
+            inputManager.PauseInput = false;
         }
     }
 

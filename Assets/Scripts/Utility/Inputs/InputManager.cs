@@ -43,7 +43,7 @@ public class InputManager : MonoBehaviour
     public bool ExitInput {  get; private set; }
     public bool InteractInput { get; private set; }
     public bool AttackInput { get; private set; }
-    public bool PauseInput { get; private set; }
+    public bool PauseInput { get; public set; }
     #endregion
 
     #region Input Action Context and Values
