@@ -450,8 +450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba4a5809a57ef4e43a074283542fdff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PossessionChallengeBar
-  speed: 50
-  sweetSpotSize: 60
+  speed: 95
+  sweetSpotSize: 50
   requiredWins: 3
   allowedLosses: 3
   backgroundBarImage: {fileID: 2078070138597898654}
@@ -462,4 +462,4 @@ MonoBehaviour:
   minigameMissEffect: {fileID: 0}
   minigameWinEffect: {fileID: 0}
   minigameLossEffect: {fileID: 0}
-  jaimesPsysRef: {fileID: 7700435653159467446, guid: fe32161a6c5f0ea40a9a4e6993b767bf, type: 3}
+  jaimesPsysRef: {fileID: 7700435653159467446, guid: 337db687b12558544bb43c4923357388, type: 3}
