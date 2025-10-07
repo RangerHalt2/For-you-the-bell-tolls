@@ -168,6 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeathManager
   maxFadeTime: 30
+  lossCanvas: {fileID: 0}
+  gameCanvas: {fileID: 0}
 --- !u!114 &4026019548853544870
 MonoBehaviour:
   m_ObjectHideFlags: 0

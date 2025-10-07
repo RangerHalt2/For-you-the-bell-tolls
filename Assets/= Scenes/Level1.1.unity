@@ -922,7 +922,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8378618649247777417, guid: 4eef7c8ecce676a41a59632e8ed613d9, type: 3}
   m_PrefabInstance: {fileID: 8437592364017078540}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1044439296}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 359ddb75400b3ee4190e240b5972c31b, type: 3}
@@ -2436,6 +2436,11 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1044439296 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1380969743938534343, guid: 4eef7c8ecce676a41a59632e8ed613d9, type: 3}
+  m_PrefabInstance: {fileID: 8437592364017078540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1052723684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8429365504232295775, guid: dfa70e92edd5d9e448c96ac5c82b0cbd, type: 3}
@@ -2815,7 +2820,7 @@ GameObject:
   - component: {fileID: 1102700549}
   - component: {fileID: 1102700551}
   - component: {fileID: 1102700550}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Hexagon Flat Top (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2830,13 +2835,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102700548}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.6569869, w: 0.753902}
-  m_LocalPosition: {x: -208.62, y: 28.14, z: -1165.0162}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -214.24, y: 28.14, z: -1165.0162}
   m_LocalScale: {x: 55.057957, y: 12.492662, z: 21.632692}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 34305788}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -82.141}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!60 &1102700550
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -4097,7 +4102,7 @@ GameObject:
   - component: {fileID: 1675672563}
   - component: {fileID: 1675672565}
   - component: {fileID: 1675672564}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Hexagon Flat Top (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4112,13 +4117,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675672562}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.67590594, w: 0.7369879}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -6.01, y: 45.89, z: -1165.0162}
   m_LocalScale: {x: 41.926548, y: 12.492661, z: 21.632692}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 34305788}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 85.049}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!60 &1675672564
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -4755,6 +4760,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4026019548853544870, guid: 3c2c554206df93e44b6ad482453e0620, type: 3}
+      propertyPath: maxAirJumps
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4056411469420813283, guid: 3c2c554206df93e44b6ad482453e0620, type: 3}
       propertyPath: m_Name
       value: Player - Ghost
@@ -4763,6 +4772,14 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 407141245}
+    - target: {fileID: 7861757482728140182, guid: 3c2c554206df93e44b6ad482453e0620, type: 3}
+      propertyPath: gameCanvas
+      value: 
+      objectReference: {fileID: 1044439296}
+    - target: {fileID: 7861757482728140182, guid: 3c2c554206df93e44b6ad482453e0620, type: 3}
+      propertyPath: lossCanvas
+      value: 
+      objectReference: {fileID: 2110173466}
     - target: {fileID: 8403925249509573769, guid: 3c2c554206df93e44b6ad482453e0620, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.29
