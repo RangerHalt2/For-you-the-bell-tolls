@@ -37,6 +37,7 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        FindPlayer();
         if (PlayerInSight())
         {
             isChasing = true;
@@ -82,6 +83,20 @@ public class EnemyMovement : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = (direction == 1);
+        }
+    }
+
+    //LB: This finds the current player object, it will only ever read one player at a time because FindAnyObjectsByType searches only active components.
+    private void FindPlayer()
+    {
+        PlayerController[] playerControllers = GameObject.FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        foreach (PlayerController playerController in playerControllers)
+        {
+            GameObject obj = playerController.gameObject;
+            if (obj != null && obj.layer == LayerMask.NameToLayer("Player"))
+            {
+                player = obj.transform;
+            }
         }
     }
 
