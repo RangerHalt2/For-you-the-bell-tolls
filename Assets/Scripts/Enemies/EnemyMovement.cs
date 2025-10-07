@@ -19,12 +19,19 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 1.5f;
     public LayerMask playerLayer;
 
+    [Header("Attack Settings")]
+    [SerializeField] private float attackCooldown = 2f;
+    private float attackTimer = 0f;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+
+    private Health currHealth;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        currHealth = GetComponent<Health>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
@@ -34,18 +41,16 @@ public class EnemyMovement : MonoBehaviour
         {
             isChasing = true;
             ChasePlayer();
+            AttackPlayer();
         }
         else
         {
             isChasing = false;
             Patrol();
         }
+        HandleTimer();
     }
 
-    private void GetNewPlayer()
-    {
-
-    }
 
     void Patrol()
     {
@@ -80,6 +85,23 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    //LB: Added a function that if the player is in this attack range deal damage condition must be set by a timer of how often they can take damage.
+    void AttackPlayer()
+    {
+        if (attackTimer > 0) return;
+
+        float distance = Vector2.Distance(transform.position, player.position);
+        if(distance <= attackRange)
+        {
+            Health playerHealth = player.GetComponent<Health>();
+            if (playerHealth != null && currHealth != null && playerHealth.teamID != currHealth.teamID)
+            {
+                playerHealth.TakeDamage(1);
+                attackTimer = attackCooldown;
+            }
+        }
+    }
+
     bool PlayerInSight()
     {
         if (player == null) return false;
@@ -108,5 +130,10 @@ public class EnemyMovement : MonoBehaviour
         {
             spriteRenderer.flipX = (direction == 1);
         }
+    }
+
+    void HandleTimer()
+    {
+        attackTimer -= Time.deltaTime;
     }
 }

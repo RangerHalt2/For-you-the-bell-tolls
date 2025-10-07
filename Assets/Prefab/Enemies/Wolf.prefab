@@ -410,9 +410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ded2e259eb32eb44a18ddfc2b14320a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  teamID: 0
-  maxHealth: 1
-  currentHealth: 1
+  teamID: 1
+  maxHealth: 10
+  currentHealth: 10
   healthBarActiveOnStartup: 0
   healthBar: {fileID: 0}
   healthDisplayText: {fileID: 0}

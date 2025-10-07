@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour, IController
     [Space(5)]
 
     [Header("Health")] //This is all health from visuals to numbers
+    /*
     public int health;
     public int maxHealth;
     [SerializeField] float hitFlashSpeed;
@@ -75,6 +76,8 @@ public class PlayerController : MonoBehaviour, IController
     [HideInInspector] public OnHealthChagnedDelegate onHealthChangedCallback;
     float healTimer;
     [SerializeField] float timeToHeal;
+    */
+    private Health playerHealth;
 
     [SerializeField] GameObject damageEffect;
     [Space(5)]
@@ -118,6 +121,7 @@ public class PlayerController : MonoBehaviour, IController
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         pState = GetComponent<PlayerStateList>();
+        playerHealth = GetComponent<Health>();
         gravity = rb.gravityScale;
         sr = GetComponentInChildren<SpriteRenderer>();
     }
@@ -318,7 +322,7 @@ public class PlayerController : MonoBehaviour, IController
             _recoilBool = true;
         }
 
-        for (int i = 0; i < objectsToHit.Length; i++)
+        foreach (Collider2D obj in objectsToHit)
         {
             /*
             EnemyController e = objectsToHit[i].GetComponent<EnemyController>();
@@ -333,6 +337,13 @@ public class PlayerController : MonoBehaviour, IController
                 }
             }
             */
+
+            Health enemyHealth = obj.GetComponent<Health>();
+
+            if (playerHealth != null && enemyHealth != null && enemyHealth.teamID != playerHealth.teamID)
+            {
+                enemyHealth.TakeDamage(1);
+            }
         }
     }
 

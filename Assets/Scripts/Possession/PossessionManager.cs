@@ -250,11 +250,17 @@ public class PossessionManager : MonoBehaviour
         currentTarget.gameObject.layer = LayerMask.NameToLayer("Player");
         currentTarget._controller.EnableControl();
 
+        CameraTracker tracker = GameObject.FindAnyObjectByType<CameraTracker>();
+        tracker.SetPlayer(currentTarget.transform);
+
         //LB: Start the decay
         targetDecay.SetDecaying(true);
         targetDecay.SetPossessed(true);
         targetDecay.SetIsDestroying(false);
         targetDecay.ResetDestroyTimer();
+
+        Health targetHealth = currentTarget.GetComponent<Health>();
+        targetHealth.teamID = 0;
 
         Debug.Log("Possession Manager: Moved from " + gameObject.name + " to " + currentTarget.name + ".");
 
@@ -325,6 +331,9 @@ public class PossessionManager : MonoBehaviour
         DeathManager deathManager = playerGhost.GetComponent<DeathManager>();
         deathManager.SetIsFading(true);
         deathManager.ResetFadeTimer();
+
+        CameraTracker tracker = GameObject.FindAnyObjectByType<CameraTracker>();
+        tracker.SetPlayer(playerGhost.transform);
 
         Debug.Log(gameObject.name + " exited. Control returned to ghost");
     }

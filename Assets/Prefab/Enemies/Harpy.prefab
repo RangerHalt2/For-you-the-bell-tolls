@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6764662661769696947}
   - component: {fileID: 751253828000976965}
-  - component: {fileID: 637854151403276126}
   - component: {fileID: 5552069587510422659}
   - component: {fileID: 8298754084004150674}
   m_Layer: 0
@@ -93,27 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &637854151403276126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55666947884502550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ee3381ca3166884b993b1da2f19f08f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFlyingMovement
-  speed: 2
-  patrolPointA: {fileID: 4196143737435195271}
-  patrolPointB: {fileID: 5271267167472781587}
-  player: {fileID: 0}
-  chaseStartRange: 5
-  chaseStopRange: 7
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!50 &5552069587510422659
 Rigidbody2D:
   serializedVersion: 5
@@ -186,6 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3541050578338878875}
+  - component: {fileID: 7866588665947450408}
   m_Layer: 0
   m_Name: Harpy
   m_TagString: Untagged
@@ -211,6 +190,27 @@ Transform:
   - {fileID: 5271267167472781587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7866588665947450408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908410019090318262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee3381ca3166884b993b1da2f19f08f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFlyingMovement
+  speed: 2
+  patrolPointA: {fileID: 4196143737435195271}
+  patrolPointB: {fileID: 5271267167472781587}
+  player: {fileID: 0}
+  chaseStartRange: 5
+  chaseStopRange: 7
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &5587826602860717430
 GameObject:
   m_ObjectHideFlags: 0
