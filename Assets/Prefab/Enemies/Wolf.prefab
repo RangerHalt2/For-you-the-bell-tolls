@@ -414,7 +414,7 @@ MonoBehaviour:
   healthBarActiveOnStartup: 0
   healthBar: {fileID: 0}
   healthDisplayText: {fileID: 0}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 7700435653159467446, guid: f270851d220029c45bcceda7c528419a, type: 3}
   deathEffect: {fileID: 0}
   isPlayer: 0
   gameOverCanvas: {fileID: 0}

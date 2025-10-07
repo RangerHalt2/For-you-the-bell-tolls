@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4012203421408262834}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0.72, y: -1.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,7 +93,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4056411469420813283}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.97, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   healthBarActiveOnStartup: 1
   healthBar: {fileID: 0}
   healthDisplayText: {fileID: 0}
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 7700435653159467446, guid: d04176314fb9817408fcc4e06c41ce28, type: 3}
   deathEffect: {fileID: 0}
   isPlayer: 1
   gameOverCanvas: {fileID: 0}
@@ -184,9 +184,9 @@ MonoBehaviour:
   walkSpeed: 5
   jumping: 0
   jumpForce: 7
-  jumpBufferFrames: 0
+  jumpBufferFrames: 1
   coyoteTime: 0.1
-  maxAirJumps: 0
+  maxAirJumps: 1
   groundCheckPoint: {fileID: 6602108843413570120}
   groundCheckY: 0.2
   groundCheckX: 0.5
@@ -211,10 +211,10 @@ MonoBehaviour:
     m_Bits: 128
   damage: 0
   slashEffect: {fileID: 0}
-  recoilXSteps: 5
-  recoilYSteps: 5
-  recoilXSpeed: 32
-  recoilYSpeed: 32
+  recoilXSteps: 2
+  recoilYSteps: 2
+  recoilXSpeed: 15
+  recoilYSpeed: 15
   damageEffect: {fileID: 0}
   pState: {fileID: 0}
 --- !u!70 &4862618298446030128
