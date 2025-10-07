@@ -4,7 +4,7 @@ public class EnemyMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 2f;
-    public int direction = -1;
+    public int direction = 1;
     public bool isChasing = false;
 
     [Header("Raycast Settings")]
@@ -143,7 +143,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.flipX = (direction == 1);
+            //spriteRenderer.flipX = (direction == 1);
         }
     }
 

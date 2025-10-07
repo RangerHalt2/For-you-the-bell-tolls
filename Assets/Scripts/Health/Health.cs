@@ -136,7 +136,7 @@ public class Health : MonoBehaviour
     {
 
         pm = GetComponent<PossessionManager>();
-        if (!pm.isPlayerGhost)
+        if (!pm.isPlayerGhost && teamID == 0)
         {
             pm.ExitHost();
         }

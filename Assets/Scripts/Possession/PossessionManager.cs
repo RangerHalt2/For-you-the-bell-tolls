@@ -257,7 +257,9 @@ public class PossessionManager : MonoBehaviour
         //LB: Set the blue flame
         if (blueFlame != null)
         {
-            Instantiate(blueFlame, currentTarget.transform);
+            GameObject ps =  Instantiate(blueFlame, currentTarget.transform);
+            ps.GetComponent<ParticleSystem>().Clear();
+            ps.GetComponent<ParticleSystem>().Play();
         }
 
         //LB: Start the decay

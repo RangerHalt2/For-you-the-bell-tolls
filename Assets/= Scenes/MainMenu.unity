@@ -899,7 +899,7 @@ MonoBehaviour:
   restartButton: {fileID: 0}
   returnToMainMenuButton: {fileID: 0}
   startGameButton: {fileID: 857776602}
-  gameSceneName: Level1.0
+  gameSceneName: Level1.1
   exitGameButton: {fileID: 200881305}
 --- !u!4 &1057535755
 Transform:
