@@ -13,7 +13,7 @@ public class PossessionManager : MonoBehaviour
 
     [Header("Ghost Settings")]
     [Tooltip("Determines if the object this script is assigned to is the player's ghost body.")]
-    [SerializeField] private bool isPlayerGhost;
+    [SerializeField] public bool isPlayerGhost;
     [SerializeField] private GameObject playerGhost;
 
     [Header("Controller Settings")]

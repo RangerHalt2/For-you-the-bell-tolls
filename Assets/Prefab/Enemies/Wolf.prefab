@@ -201,7 +201,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.02778244, y: 0.21133333}
+  m_Offset: {x: 0.05259514, y: 0.19258904}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -211,7 +211,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.678482, y: 1}
+  m_Size: {x: 2.3862228, y: 1.3357716}
   m_EdgeRadius: 0
 --- !u!114 &7879259493996381578
 MonoBehaviour:
@@ -240,6 +240,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  attackCooldown: 2
 --- !u!114 &2471292909848145121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,10 +334,6 @@ MonoBehaviour:
   recoilYSteps: 5
   recoilXSpeed: 100
   recoilYSpeed: 100
-  health: 0
-  maxHealth: 0
-  hitFlashSpeed: 0
-  timeToHeal: 0
   damageEffect: {fileID: 0}
   pState: {fileID: 0}
 --- !u!114 &668825583319109754
@@ -376,6 +373,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   possessCooldown: 1
+  blueFlame: {fileID: 0}
   possessionChallengeBar: {fileID: 350840002625776084}
 --- !u!114 &1051659477476214439
 MonoBehaviour:

@@ -41,6 +41,8 @@ public class Health : MonoBehaviour
 
     public bool isDead;
 
+    private PossessionManager pm;
+
     [SerializeField] private GameObject damageNoise;
     private float damageTimer = 0f;
     private float damageCooldown = 0.5f;
@@ -132,6 +134,13 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
+
+        pm = GetComponent<PossessionManager>();
+        if (!pm.isPlayerGhost)
+        {
+            pm.ExitHost();
+        }
+
         // If a death effect has been assigned
         if (deathEffect != null)
         {

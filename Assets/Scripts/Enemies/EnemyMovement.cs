@@ -93,7 +93,7 @@ public class EnemyMovement : MonoBehaviour
         foreach (PlayerController playerController in playerControllers)
         {
             GameObject obj = playerController.gameObject;
-            if (obj != null && obj.layer == LayerMask.NameToLayer("Player"))
+            if (obj != null && obj.layer == LayerMask.NameToLayer("Player") && playerController.enabled)
             {
                 player = obj.transform;
             }
@@ -122,14 +122,14 @@ public class EnemyMovement : MonoBehaviour
         if (player == null) return false;
 
         float distance = Vector2.Distance(transform.position, player.position);
-        Debug.Log("Checking their Distance");
+        //Debug.Log("Checking their Distance");
         if (distance > sightRange)
         {
-            Debug.Log("Distance is too far");
+            //Debug.Log("Distance is too far");
             return false;
         }
 
-        Debug.Log("Distance is in range!");
+        //Debug.Log("Distance is in range!");
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, distance, groundLayer | playerLayer);
 

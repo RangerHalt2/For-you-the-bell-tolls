@@ -77,7 +77,7 @@ public class Decay : MonoBehaviour
     {
         if (isDecaying)
         {
-            Debug.Log("Time till decay death: " + (maxDecay - currDecay));
+            //Debug.Log("Time till decay death: " + (maxDecay - currDecay));
             if (currDecay > maxDecay)
             {
                 possessionManager.ExitHost();
