@@ -1404,6 +1404,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   possessCooldown: 0.5
+  blueFlame: {fileID: 0}
   possessionChallengeBar: {fileID: 1662736951}
 --- !u!65 &1054545681
 BoxCollider:

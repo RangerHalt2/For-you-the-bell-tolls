@@ -126,6 +126,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   possessCooldown: 0.5
+  blueFlame: {fileID: 711795450658091094, guid: 7aa284b18f7857d4fbec5da44a3956c6, type: 3}
   possessionChallengeBar: {fileID: 0}
 --- !u!114 &5632025407150673557
 MonoBehaviour:

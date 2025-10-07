@@ -28,6 +28,7 @@ public class PossessionManager : MonoBehaviour
     [Tooltip("Possession Intiation Cooldown Internally")]
     [SerializeField] private float possessCooldown = 1f;
                      private float possessTimer = 0f;
+    [SerializeField] private GameObject blueFlame;
 
     private PossessionManager currentTarget;
     private Decay targetDecay;
@@ -252,6 +253,12 @@ public class PossessionManager : MonoBehaviour
 
         CameraTracker tracker = GameObject.FindAnyObjectByType<CameraTracker>();
         tracker.SetPlayer(currentTarget.transform);
+
+        //LB: Set the blue flame
+        if (blueFlame != null)
+        {
+            Instantiate(blueFlame, currentTarget.transform);
+        }
 
         //LB: Start the decay
         targetDecay.SetDecaying(true);
